@@ -3,19 +3,26 @@ NAME=get_next_line
 #Compiler                                                                       
 CC=cc
 #Compiler flags                                                                 
-C_FLAGS=-Wall -Werror -Wextra
+C_FLAGS=-Wall -Werror -Wextra -g
 #.c files                                                                       
-SRC=get_next_line.c
+SRC=get_next_line.c get_next_line_utils.c
+#.h files
+INCLUDE=get_next_line.h
 #root path                                                                      
 ROOT=${CURDIR}
+#Object
+OBJ=$(SRC:.c=.o)
 
 all: $(NAME)
 	
 $(NAME): $(OBJ)
-	$(CC) $(C_FLAGS) $(SRC) -o $(NAME)
+	$(CC) $(C_FLAGS) $(OBJ) -o $(NAME)
+
+%.o: %.c
+	$(CC) $(C_FLAGS) -I $(INCLUDE) -c $< -o $@
 
 clean:
-	rm -rf *.o
+	rm -rf $(OBJ)
 	
 fclean: clean
 	rm -rf get_next_line	

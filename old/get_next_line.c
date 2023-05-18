@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/17 18:59:55 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/18 15:01:53 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,25 @@ char	*get_next_line(int fd)
 	int			i;
 	int			len;
 	static int	pos;
-	t_char		*lst;
 
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	read(fd, buffer, BUFFER_SIZE);
-	while (buffer[i] != '\n' && buffer[i] != '\0' && i < BUFFER_SIZE)
+	i = pos + 2;
+	len = 0;
+	while (buffer[i] != '\n' && buffer[i] != '\0')
 	{
-		
+		len++;
+		i++;
 	}
+	line = malloc((len + 1) * sizeof(char));
+	i = 0;
+	while (i < len)
+	{
+		line[i] = buffer[i + pos];
+		i++;
+	}
+	line[i] = '\n';
+	pos += len;
 	free(buffer);
 	return (line);
 }
