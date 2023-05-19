@@ -8,7 +8,7 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "${workspaceFolder}/get_next_line",
+			"program": "${workspaceFolder}/a.out",
 			"args": ["teste.txt"],
 			"cwd": "${workspaceFolder}"
 		}

@@ -6,7 +6,7 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:48:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/17 20:33:27 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/19 12:21:26 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # endif //BUFFER_SIZE
 
 # include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
 
 char	*get_next_line(int fd);
 
