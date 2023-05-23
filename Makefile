@@ -19,12 +19,12 @@ $(NAME): $(OBJ)
 	$(CC) $(C_FLAGS) $(OBJ) -o $(NAME)
 
 %.o: %.c
-	$(CC) $(C_FLAGS) -I $(INCLUDE) -c $< -o $@
+	$(CC) $(C_FLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJ)
 	
 fclean: clean
-	rm -rf get_next_line	
+	rm -rf $(NAME)	
 
 re: fclean all
