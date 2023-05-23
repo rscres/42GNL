@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:48:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/19 12:21:26 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/22 20:35:58 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ typedef struct s_char
 
 //List functions
 void	ft_lstadd_back(t_char **lst, t_char *new);
+void	ft_lstclear(t_char **lst);
 t_char	*ft_lstnew(char content);
 int		ft_lstsize(t_char *lst);
+
+//Mem function
+void	*ft_memset(void *ptr, int c, size_t num);
 
 #endif //GET_NEXT_LINE_H

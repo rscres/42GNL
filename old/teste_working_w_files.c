@@ -97,40 +97,58 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (str);
 }
 
-void	get_next_line(int fd)
+char	*get_next_line(int fd)
 {
 	int			i;
 	char		str[BUFFER_SIZE];
+	t_char		*line;
+	t_char		**head;
 	static int	pos;
+	char		*line_ret;
 
 	if (BUFFER_SIZE <= 0)
-		return ;
+		return (NULL);
 	if (pos == BUFFER_SIZE || pos == 0)
 	{
 		read(fd, str, BUFFER_SIZE);
 		pos = 0;
 	}
 	i = pos;
-	while (i <= BUFFER_SIZE)
+	while (i < BUFFER_SIZE)
 	{
-		write (1, &str[i], 1);
+		line = ft_lstnew(str[i]);
+		if (*head == NULL)
+		{
+			*head = line;
+		}
+		else
+		{
+			ft_lstadd_back(head, line);
+		}
 		if (str[i] == '\n')
 			break ;
-		else if (i == BUFFER_SIZE)
+		else if (i == BUFFER_SIZE - 1)
 		{
-			memset(str, 0, strlen(str));
-			read(fd, str, BUFFER_SIZE);
-			i = -1;
-		}
-		else if (str[i] == '\0')
-		{
-			break ;
+			memset(str, 0, BUFFER_SIZE);
+			if (read(fd, str, BUFFER_SIZE))
+				i = -1;
+			else
+				break ;
 		}
 		i++;
-
 	}
 	pos = i + 1;
-	// printf("%d\n", pos);
+	i = ft_lstsize(*head);
+	line_ret = malloc(i * sizeof(char));
+	i = 0;
+	while (line->next != NULL)
+	{
+		line_ret[i] = line->c;
+		i++;
+		line = line->next;
+	}
+	ft_lstclear(*head);
+	return (line_ret);
 }
 
 int	main(int argc, char **argv)
@@ -140,21 +158,8 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		fd = open(argv[1], O_RDONLY);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
-		get_next_line(fd);
+		printf("%s", get_next_line(fd));
+		write (1, "\n", 1);
 	}
 	return (0);
 }

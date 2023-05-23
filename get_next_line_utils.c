@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 20:21:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/18 15:10:50 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/22 20:42:10 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,25 @@ void	ft_lstclear(t_char **lst)
 	while (current)
 	{
 		next = current->next;
-		free(current->c);
+		current->c = '\0';
 		free(current);
 		current = next;
 	}
 	*lst = NULL;
+}
+
+void	*ft_memset(void *ptr, int c, size_t num)
+{
+	size_t			i;
+	unsigned char	*buffer;
+
+	i = 0;
+	buffer = ptr;
+	while (i < num)
+	{
+		buffer[i] = (unsigned char)c;
+		i++;
+	}
+	buffer[i] = '\0';
+	return (ptr);
 }
