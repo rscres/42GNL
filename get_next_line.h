@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:48:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/22 20:35:58 by renato           ###   ########.fr       */
+/*   Updated: 2023/05/23 14:57:19 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2048
+#  define BUFFER_SIZE 1
 # endif //BUFFER_SIZE
 
 # include <stdlib.h>
@@ -30,7 +30,7 @@ typedef struct s_char
 }	t_char;
 
 //List functions
-void	ft_lstadd_back(t_char **lst, t_char *new);
+void	ft_lstadd_back(t_char **lst, t_char *node);
 void	ft_lstclear(t_char **lst);
 t_char	*ft_lstnew(char content);
 int		ft_lstsize(t_char *lst);

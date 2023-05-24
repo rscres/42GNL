@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 20:21:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/22 20:42:10 by renato           ###   ########.fr       */
+/*   Updated: 2023/05/23 14:57:31 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,20 @@ int	ft_lstsize(t_char *lst)
 	return (size);
 }
 
-void	ft_lstadd_back(t_char **lst, t_char *new)
+void	ft_lstadd_back(t_char **lst, t_char *node)
 {
 	t_char	**current;
 
-	if (!new)
+	if (!node)
 		return ;
 	if (*lst == NULL)
-		*lst = new;
+		*lst = node;
 	else
 	{
 		current = &(*lst)->next;
 		while (*current != NULL)
 			current = &(*current)->next;
-		*current = new;
+		*current = node;
 	}
 }
 
