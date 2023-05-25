@@ -6,12 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/23 17:16:00 by renato           ###   ########.fr       */
+/*   Updated: 2023/05/24 22:03:51 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include <stdio.h>
+#include <string.h>
 
 static void	lst_creator(t_char **head, char c)
 {
@@ -35,7 +36,7 @@ static char	*line_writer(t_char **lst)
 	int		len;
 
 	len = ft_lstsize(*lst);
-	line_ret = malloc((len) * sizeof(char));
+	line_ret = malloc((len + 1) * sizeof(char));
 	line = *lst;
 	if (!line_ret)
 		return (NULL);
@@ -56,7 +57,7 @@ static int	line_reader(t_char **lst, int pos, int fd, char *str)
 	while (pos < BUFFER_SIZE)
 	{
 		lst_creator(lst, str[pos]);
-		if (str[pos] == '\n')
+		if (str[pos] == '\n' || str[pos] == EOF)
 			break ;
 		else if (pos == BUFFER_SIZE - 1)
 		{
@@ -77,9 +78,12 @@ char	*get_next_line(int fd)
 	static char	str[BUFFER_SIZE];
 	static int	pos;
 	t_char		*head;
+	int			dup_fd;
 
-	if (BUFFER_SIZE <= 0 || fd < 0 || !read(fd, str, BUFFER_SIZE))
+	dup_fd = dup(fd);
+	if (BUFFER_SIZE <= 0 || fd < 0 || dup_fd == -1)
 		return (NULL);
+	close(dup_fd);
 	if (pos == BUFFER_SIZE || pos == 0)
 	{
 		if (!read(fd, str, BUFFER_SIZE))
@@ -91,31 +95,28 @@ char	*get_next_line(int fd)
 	return (line_writer(&head));
 }
 
-int	main(int argc, char **argv)
-{
-	int	fd;
-	int	i;
-	char *line;
+// int	main(int argc, char **argv)
+// {
+// 	int		fd;
+// 	// int		i;
+// 	// char	*line;
 
-	i = 0;
-	if (argc < 2)
-		printf("Nothing to read...\n");
-	if (argc == 2)
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd == -1)
-			printf("Error");
-		else
-		{
-			while (i++ < 100)
-			{	
-				line =  get_next_line(fd);
-				if (!line)
-					break ;
-				printf("%s", line);
-			}
-	
-		}
-	}
-	return (0);
-}
+// 	// i = 0;
+// 	if (argc < 2)
+// 		printf("Nothing to read...\n");
+// 	if (argc >= 2)
+// 	{
+// 		fd = open(argv[1], O_RDONLY);
+// 		// fd_read = open(argv[2], O_RDWR);
+// 		if (fd == -1)
+// 			printf("Error");
+// 		else
+// 		{	
+// 			printf("%s", get_next_line(fd));
+// 			printf("%s", get_next_line(fd));
+// 			// if (!line)
+// 			// 	break ;
+// 		}
+// 	}
+// 	return (0);
+// }
