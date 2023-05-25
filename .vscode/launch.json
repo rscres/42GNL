@@ -9,7 +9,7 @@
 			"request": "launch",
 			"name": "Debug",
 			"program": "${workspaceFolder}/get_next_line",
-			"args": ["1-brouette.txt"],
+			"args": ["./test_txt/43_no_nl"],
 			"cwd": "${workspaceFolder}"
 		}
 	]
