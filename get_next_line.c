@@ -6,13 +6,11 @@
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/26 16:09:30 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/26 17:09:43 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
 
 static char	*line_writer(t_char **lst)
 {
