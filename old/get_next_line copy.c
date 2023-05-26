@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/26 13:38:57 by renato           ###   ########.fr       */
+/*   Updated: 2023/05/26 12:08:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,53 +38,41 @@ static char	*line_writer(t_char **lst)
 	return (line_ret);
 }
 
-// static int	line_reader(t_char **lst, t_file_data *data, char *str)
-// {
-// 	int pos = data->pos;
+static int	line_reader(t_char **lst, int pos, int fd, char *str)
+{
+	while (pos <= BUFFER_SIZE)
+	{
+		ft_lstadd_back(lst, ft_lstnew(str[pos]));
+		if (str[pos] == '\n' || str[pos] == '\0')
+			break ;
+		if (pos == BUFFER_SIZE - 1)
+		{
+			ft_memset(str, 0, BUFFER_SIZE);
+			if (read(fd, str, BUFFER_SIZE) <= 0)
+				break ;
 
-// 	while (pos <= BUFFER_SIZE && pos <= data->bytesread)
-// 	{
-// 		ft_lstadd_back(lst, ft_lstnew(str[pos]));
-// 		if (str[pos] == '\n' || str[pos] == '\0')
-// 			break ;
-// 		if (pos == BUFFER_SIZE - 1)
-// 		{
-// 			ft_memset(str, 0, BUFFER_SIZE);
-// 			if (read(data->fd, str, BUFFER_SIZE) <= 0)
-// 				break ;
-// 			pos = -1;
-// 		}
-// 		pos++;
-// 	}
-// 	pos = pos + 1;
-// 	return (pos);
-// }
+			pos = -1;
+		}
+		pos++;
+	}
+	pos = pos + 1;
+	return (pos);
+}
 
 char	*get_next_line(int fd)
 {
-	char	str[BUFFER_SIZE];
-	// static int	pos;
+	static char	str[BUFFER_SIZE];
+	static int	pos;
 	t_char		*head;
-	t_file_data	*data;
 
-	data = malloc(sizeof(t_file_data));
-	data->bytesread = read(fd, str, 1);
-	while (str[0] != '\n' && str[0] != '\0')
+	if (pos == BUFFER_SIZE || pos == 0)
 	{
-		ft_lstadd_back(&head, ft_lstnew(str[0]));
-		// if (str[pos] == '\n' || str[pos] == '\0')
-		// 	break ;
-		data->bytesread = read(fd, str, 1);
-		// if (pos == BUFFER_SIZE - 1)
-		// {
-		// 	ft_memset(str, 0, BUFFER_SIZE);
-		// 	if (read(fd, str, BUFFER_SIZE) <= 0)
-		// 		break ;
-		// 	pos = -1;
-		// }
+		if (read(fd, str, BUFFER_SIZE) <= 0)
+			return (NULL);
+		pos = 0;
 	}
-	// pos = pos + 1;
-	// pos = line_reader(&head, data, str);
+	head = NULL;
+	pos = line_reader(&head, pos, fd, str);
 	return (line_writer(&head));
 }
 
@@ -104,10 +92,10 @@ char	*get_next_line(int fd)
 // 		if (fd == -1)
 // 			printf("Error");
 // 		else
-// 		{
+// 		{	
 // 			printf("%s", get_next_line(fd));
 // 			printf("%s", get_next_line(fd));
-// 			printf("%s", get_next_line(fd));
+// 			// printf("%s", get_next_line(fd));
 // 			// if (!line)
 // 			// 	break ;
 // 		}
