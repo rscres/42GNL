@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/26 18:47:42 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/27 20:47:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,28 +38,25 @@ static char	*line_writer(t_char **lst)
 
 char	*get_next_line(int fd)
 {
-	char		str[1];
-	t_char		*head;
-	t_data		*data;
-	char		*str_ret;
+	char			str[1];
+	static t_data	data[FD_MAX];
+	t_char			*head;
 
-	data->bytesread = read(fd, str, 1);
-	data->fd = fd;
-	if (data->bytesread <= 0 || BUFFER_SIZE <= 0)
+	data[fd].bytesread = read(fd, str, 1);
+	if (data[fd].bytesread <= 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	head = NULL;
-	while (data->bytesread > 0 && data->pos <= BUFFER_SIZE)
+	while (data[fd].bytesread > 0 && data[fd].pos <= BUFFER_SIZE)
 	{
 		ft_lstadd_back(&head, ft_lstnew(str[0]));
 		if (str[0] == '\n')
 			break ;
 		str[0] = '\0';
-		data->bytesread = read(fd, str, 1);
-		if (data->pos == BUFFER_SIZE)
-			data->pos = -1;
-		data->pos++;
+		data[fd].bytesread = read(fd, str, 1);
+		if (data[fd].pos == BUFFER_SIZE)
+			data[fd].pos = -1;
+		data[fd].pos++;
 	}
 	ft_lstadd_back(&head, ft_lstnew('\0'));
-	str_ret = line_writer(&head);
-	return (str_ret);
+	return (line_writer(&head));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:48:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/26 17:53:57 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/27 20:24:52 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif //BUFFER_SIZE
+
+# define FD_MAX 1024
 
 # include <stdlib.h>
 # include <unistd.h>
