@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/26 18:00:09 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/29 00:48:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
+#include <string.h>
 
 static char	*line_writer(t_char **lst)
 {
@@ -36,30 +38,36 @@ static char	*line_writer(t_char **lst)
 	return (line_ret);
 }
 
+//Need to refactor this function
 char	*get_next_line(int fd)
 {
-	char		str[1];
+	static char	str[BUFFER_SIZE];
 	static int	pos;
 	t_char		*head;
-	int			bytesread;
-	char		*str_ret;
+	static int	bytesread;
 
-	bytesread = read(fd, str, 1);
-	if (bytesread <= 0 || BUFFER_SIZE <= 0)
+	if (pos >= bytesread || pos == 0)
+	{
+		pos = 0;
+		bytesread = read(fd, str, BUFFER_SIZE);
+	}
+	if (bytesread <= 0 || str[pos] == '\0')
 		return (NULL);
 	head = NULL;
-	while (bytesread > 0 && pos <= BUFFER_SIZE)
+	while (bytesread > 0)
 	{
-		ft_lstadd_back(&head, ft_lstnew(str[0]));
-		if (str[0] == '\n')
+		ft_lstadd_back(&head, ft_lstnew(str[pos]));
+		if (str[pos] == '\n' || str[pos] == '\0')
 			break ;
-		str[0] = '\0';
-		bytesread = read(fd, str, 1);
-		if (pos == BUFFER_SIZE)
+		if (pos == bytesread - 1 || bytesread == 1)
+		{
 			pos = -1;
+			memset(str, 0, BUFFER_SIZE);
+			if (read(fd, str, BUFFER_SIZE) <= 0)
+				break ;
+		}
 		pos++;
 	}
-	ft_lstadd_back(&head, ft_lstnew('\0'));
-	str_ret = line_writer(&head);
-	return (str_ret);
+	pos++;
+	return (line_writer(&head));
 }
