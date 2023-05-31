@@ -8,8 +8,10 @@
 			"type": "lldb",
 			"request": "launch",
 			"name": "Debug",
-			"program": "${workspaceFolder}/get_next_line",
-			"args": ["test_txt/43_with_nl"],
+			"program": "${workspaceFolder}/get_next_line_bonus",
+			"args": ["test_txt/43_with_nl",
+					"41_with_nl",
+					"teste.txt"],
 			"cwd": "${workspaceFolder}"
 		}
 	]

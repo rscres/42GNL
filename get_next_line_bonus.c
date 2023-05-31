@@ -1,20 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 16:27:15 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/31 13:48:52 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/31 13:41:05 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
-#include <stdio.h>
-#include <string.h>
+#include "get_next_line_bonus.h"
 
-static char	*line_writer(t_char **lst)
+char	*line_writer(t_char **lst)
 {
 	t_char	*line;
 	t_char	*temp;
@@ -38,7 +36,7 @@ static char	*line_writer(t_char **lst)
 	return (line_ret);
 }
 
-static char	*line_reader(t_data *data, t_char *head, int fd)
+char	*line_reader(t_data *data, t_char *head, int fd)
 {
 	while (data->bytesread > 0)
 	{
@@ -48,9 +46,13 @@ static char	*line_reader(t_data *data, t_char *head, int fd)
 		if (data->pos == data->bytesread - 1 || data->bytesread == 1)
 		{
 			data->pos = -1;
-			ft_bzero(data->str, BUFFER_SIZE);
-			if (read(fd, data->str, BUFFER_SIZE) <= 0)
-				break ;
+			free(data->str);
+			data->str = malloc((BUFFER_SIZE + 1) * sizeof(char));
+			if (!data->str)
+				return (line_writer(&head));
+			data->bytesread = read(fd, data->str, BUFFER_SIZE);
+			if (data->bytesread == -1)
+				return (line_writer(&head));
 		}
 		data->pos++;
 	}
@@ -60,16 +62,23 @@ static char	*line_reader(t_data *data, t_char *head, int fd)
 
 char	*get_next_line(int fd)
 {
+	static t_data	data[FD_MAX];
 	t_char			*head;
-	static t_data	data;
+	t_data			*current;
 
-	if (data.pos >= data.bytesread || data.pos == 0)
+	current = &data[fd];
+	if (current->pos >= current->bytesread || current->pos == 0)
 	{
-		data.pos = 0;
-		data.bytesread = read(fd, data.str, BUFFER_SIZE);
+		current->pos = 0;
+		if (current->str)
+			free(current->str);
+		current->str = malloc((BUFFER_SIZE + 1) * sizeof(char));
+		if (!current->str)
+			return (NULL);
+		current->bytesread = read(fd, current->str, BUFFER_SIZE);
 	}
-	if (data.bytesread <= 0 || data.str[data.pos] == '\0')
+	if (current->bytesread <= 0 || current->str[current->pos] == '\0')
 		return (NULL);
 	head = NULL;
-	return (line_reader(&data, head, fd));
+	return (line_reader(current, head, fd));
 }

@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rseelaen <rseelaen@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/17 20:21:10 by rseelaen          #+#    #+#             */
-/*   Updated: 2023/05/31 13:55:28 by rseelaen         ###   ########.fr       */
+/*   Updated: 2023/05/29 11:49:44 by rseelaen         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 t_char	*ft_lstnew(char content)
 {
@@ -53,21 +53,5 @@ void	ft_lstadd_back(t_char **lst, t_char *node)
 		while (*current != NULL)
 			current = &(*current)->next;
 		*current = node;
-	}
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t			i;
-	unsigned char	*buffer;
-
-	i = 0;
-	buffer = s;
-	if (n == 0)
-		return ;
-	while (i < n)
-	{
-		buffer[i] = '\0';
-		i++;
 	}
 }

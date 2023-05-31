@@ -9,7 +9,7 @@ C_FLAGS=-Wall -Werror -Wextra -g
 #.c files                                                                       
 SRC=get_next_line.c get_next_line_utils.c main.c
 #Bonus source
-SRC_BONUS=get_next_line_bonus.c get_next_line_utils_bonus.c
+SRC_BONUS=get_next_line_bonus.c get_next_line_utils_bonus.c main_bonus.c
 #root path                                                                      
 ROOT=${CURDIR}
 #Object
